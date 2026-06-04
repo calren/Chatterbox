@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun ChatScreen(
     modifier: Modifier = Modifier,
-    viewModel: ChatViewModel = viewModel()
+    viewModel: ChatViewModel = viewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
     ChatScreenContent(
@@ -65,6 +65,20 @@ fun ChatScreenContent(
     }
 
     Column(modifier = modifier.fillMaxSize()) {
+        Surface(
+            color = MaterialTheme.colorScheme.secondaryContainer,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                text = "Model Status: ${uiState.statusText}",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSecondaryContainer,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+            )
+        }
+
         LazyColumn(
             modifier = Modifier
                 .weight(1f)
@@ -144,9 +158,9 @@ fun ChatScreenPreview() {
         ChatScreenContent(
             uiState = ChatUiState(
                 messages = listOf(
-                    Message("Hello! How can I help you?", false),
-                    Message("Hi, I want to learn Android development.", true),
-                    Message("Awesome! You should start with Kotlin and Jetpack Compose.", false)
+                    Message(text = "Hello! How can I help you?", isUser = false),
+                    Message(text = "Hi, I want to learn Android development.", isUser = true),
+                    Message(text = "Awesome! You should start with Kotlin and Jetpack Compose.", isUser = false)
                 )
             ),
             onSendMessage = {}
